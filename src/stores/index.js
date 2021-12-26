@@ -5,6 +5,8 @@ import promiseMiddleware from 'redux-promise-middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import authReducers from './auth/reducers/index';
+import userReducers from './user/reducers/index';
+import locationReducers from './location/reducers/index';
 
 const persistConfig = {
   key: 'root',
@@ -13,6 +15,8 @@ const persistConfig = {
 
 const rootReducers = combineReducers({
   auth: authReducers,
+  user: userReducers,
+  location: locationReducers,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducers);

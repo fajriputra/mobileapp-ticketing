@@ -1,0 +1,164 @@
+import React, {useState} from 'react';
+import {
+  Image,
+  View,
+  StyleSheet,
+  ScrollView,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import tickitz from '../../../assets/images/logo-tickitz.png';
+
+import axios from '../../../helpers/axios';
+import {Input, Button} from '../../../components';
+// import {showError, showSuccess} from '../../../helpers/notications';
+
+const initialState = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  phoneNumber: '',
+};
+
+export default function Register() {
+  const [form, setForm] = useState(initialState);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleShowPassword = () => setShowPassword(!showPassword);
+
+  const handleChange = (value, fields) => {
+    setForm({...form, [fields]: value});
+  };
+
+  const handleSubmit = async () => {
+    for (const data in form) {
+      if (form[data] === '') {
+        setError('Please fill all fields');
+
+        return;
+      }
+    }
+    setLoading(true);
+    try {
+      const res = await axios.post('/auth/register', form);
+
+      setSuccess(res.data.message);
+    } catch (err) {
+      err.response.data.message && setError(err.response.data.message);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <Image source={tickitz} style={styles.logoBrand} />
+
+      <Text style={styles.textSignup}>Signup</Text>
+
+      {/* {error && <Text style={{color: '#FF5B37'}}>{error}</Text>}
+      {success && <Text style={{color: '#FF5B37'}}>{success}</Text>} */}
+
+      <View style={{position: 'relative'}}>
+        <Input
+          keyboardType="default"
+          placeholder="Write your firstname"
+          secureTextEntry={false}
+          editable={true}
+          value={form.firstName}
+          onChangeText={value => handleChange(value, 'firstName')}
+          // style={}
+        />
+      </View>
+      <View style={{position: 'relative'}}>
+        <Input
+          keyboardType="default"
+          placeholder="Write your lastname"
+          secureTextEntry={false}
+          editable={true}
+          value={form.lastName}
+          onChangeText={value => handleChange(value, 'lastName')}
+        />
+      </View>
+      <View style={{position: 'relative'}}>
+        <Input
+          keyboardType="email-address"
+          placeholder="Write your email address"
+          secureTextEntry={false}
+          editable={true}
+          value={form.email}
+          onChangeText={value => handleChange(value, 'email')}
+        />
+      </View>
+      <View style={{position: 'relative'}}>
+        <Input
+          keyboardType="numeric"
+          placeholder="Write your phone number"
+          secureTextEntry={false}
+          editable={true}
+          value={form.phoneNumber}
+          onChangeText={value => handleChange(value, 'phoneNumber')}
+        />
+      </View>
+      <View style={{marginBottom: 40, position: 'relative'}}>
+        <Input
+          placeholder="Create your password"
+          secureTextEntry={showPassword ? false : true}
+          editable={true}
+          value={form.password}
+          onChangeText={value => handleChange(value, 'password')}
+        />
+
+        <Icon
+          name={showPassword ? 'eye' : 'eye-slash'}
+          onPress={handleShowPassword}
+          style={styles.icon}
+          size={20}
+        />
+      </View>
+
+      <Button onPress={handleSubmit}>
+        {loading ? (
+          <ActivityIndicator size="small" color="#DEDEDE" />
+        ) : (
+          <Text style={styles.textButton}>Join for free now</Text>
+        )}
+      </Button>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    marginVertical: 40,
+    marginHorizontal: 15,
+  },
+  logoBrand: {
+    width: 100,
+    height: 32,
+  },
+  textSignup: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: '#000000',
+    marginTop: 20,
+  },
+  icon: {
+    position: 'absolute',
+    top: 45,
+    right: 15,
+  },
+  textButton: {
+    fontSize: 16,
+    color: '#ffffff',
+    textAlign: 'center',
+  },
+  error: {
+    borderColor: 'red',
+  },
+});

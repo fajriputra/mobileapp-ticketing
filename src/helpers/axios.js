@@ -5,7 +5,7 @@ import {REACT_APP_HOST} from '@env';
 console.log('HOST', REACT_APP_HOST);
 
 const instance = axios.create({
-  baseURL: `${REACT_APP_HOST}`,
+  baseURL: REACT_APP_HOST,
 });
 
 const removeKey = async () => {

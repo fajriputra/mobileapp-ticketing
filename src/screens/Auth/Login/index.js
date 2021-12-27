@@ -82,8 +82,9 @@ export default function Login({navigation}) {
 
       {success && <Text style={styles.textSuccess}>{success}</Text>}
 
-      <View style={{position: 'relative'}}>
+      <View style={{marginBottom: 20, position: 'relative'}}>
         <Input
+          label="Email Address"
           keyboardType="email-address"
           placeholder="Write your email address"
           secureTextEntry={false}
@@ -95,7 +96,8 @@ export default function Login({navigation}) {
 
       <View style={{marginBottom: 40, position: 'relative'}}>
         <Input
-          placeholder="Create your password"
+          label="Password"
+          placeholder="Write your password"
           secureTextEntry={showPassword ? false : true}
           editable={true}
           value={form.password}
@@ -142,7 +144,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '600',
     color: '#000000',
-    marginTop: 20,
+    marginVertical: 20,
   },
   icon: {
     position: 'absolute',

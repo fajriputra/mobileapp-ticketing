@@ -68,7 +68,7 @@ export default function Header({navigation}) {
             <View>
               <Text
                 style={styles.navigationLink}
-                onPress={() => moveScreen('Profile')}>
+                onPress={() => moveScreen('ProfilePage')}>
                 Profile
               </Text>
             </View>

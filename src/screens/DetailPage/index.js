@@ -12,8 +12,6 @@ import {
   Showtimes,
 } from '../../parts/DetailPage';
 
-import axios from '../../helpers/axios';
-
 import {getMovieById} from '../../stores/movies/actions';
 
 export default function DetailPage({navigation, route}) {

@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 export default function Footer() {
   return (
-    <View style={{paddingHorizontal: 15}}>
+    <View style={{paddingHorizontal: 15, backgroundColor: '#FFFFFF'}}>
       <View>
         <Image
           source={require('../../assets/images/logo-tickitz.png')}

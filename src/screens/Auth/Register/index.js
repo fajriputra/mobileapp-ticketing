@@ -78,8 +78,9 @@ export default function Register({navigation}) {
 
       {success && <Text style={styles.textSuccess}>{success}</Text>}
 
-      <View style={{position: 'relative'}}>
+      <View style={{marginBottom: 20, position: 'relative'}}>
         <Input
+          label="First Name"
           keyboardType="default"
           placeholder="Write your firstname"
           secureTextEntry={false}
@@ -88,8 +89,9 @@ export default function Register({navigation}) {
           onChangeText={value => handleChange(value, 'firstName')}
         />
       </View>
-      <View style={{position: 'relative'}}>
+      <View style={{marginBottom: 20, position: 'relative'}}>
         <Input
+          label="Last Name"
           keyboardType="default"
           placeholder="Write your lastname"
           secureTextEntry={false}
@@ -98,8 +100,9 @@ export default function Register({navigation}) {
           onChangeText={value => handleChange(value, 'lastName')}
         />
       </View>
-      <View style={{position: 'relative'}}>
+      <View style={{marginBottom: 20, position: 'relative'}}>
         <Input
+          label="Email Address"
           keyboardType="email-address"
           placeholder="Write your email address"
           secureTextEntry={false}
@@ -108,8 +111,9 @@ export default function Register({navigation}) {
           onChangeText={value => handleChange(value, 'email')}
         />
       </View>
-      <View style={{position: 'relative'}}>
+      <View style={{marginBottom: 20, position: 'relative'}}>
         <Input
+          label="Phone Number"
           keyboardType="numeric"
           placeholder="Write your phone number"
           secureTextEntry={false}
@@ -120,6 +124,7 @@ export default function Register({navigation}) {
       </View>
       <View style={{marginBottom: 40, position: 'relative'}}>
         <Input
+          label="Password"
           placeholder="Create your password"
           secureTextEntry={showPassword ? false : true}
           editable={true}
@@ -168,7 +173,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '600',
     color: '#000000',
-    marginTop: 20,
+    marginVertical: 20,
   },
   icon: {
     position: 'absolute',

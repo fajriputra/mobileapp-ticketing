@@ -12,7 +12,6 @@ import tickitz from '../../../assets/images/logo-tickitz.png';
 
 import axios from '../../../helpers/axios';
 import {Input, Button} from '../../../components';
-// import {showError, showSuccess} from '../../../helpers/notications';
 
 const initialState = {
   firstName: '',
@@ -22,11 +21,11 @@ const initialState = {
   phoneNumber: '',
 };
 
-export default function Register() {
+export default function Register({navigation}) {
   const [form, setForm] = useState(initialState);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -41,7 +40,11 @@ export default function Register() {
       if (form[data] === '') {
         setError('Please fill all fields');
 
-        return;
+        setTimeout(() => {
+          setError(null);
+        }, 3000);
+
+        return false;
       }
     }
     setLoading(true);
@@ -49,8 +52,20 @@ export default function Register() {
       const res = await axios.post('/auth/register', form);
 
       setSuccess(res.data.message);
+      setForm(initialState);
+
+      setTimeout(() => {
+        setSuccess(null);
+        navigation.navigate('Login', {
+          screen: 'Login',
+        });
+      }, 3000);
     } catch (err) {
       err.response.data.message && setError(err.response.data.message);
+      setForm(initialState);
+      setTimeout(() => {
+        setError(null);
+      }, 3000);
     }
     setLoading(false);
   };
@@ -61,8 +76,7 @@ export default function Register() {
 
       <Text style={styles.textSignup}>Signup</Text>
 
-      {/* {error && <Text style={{color: '#FF5B37'}}>{error}</Text>}
-      {success && <Text style={{color: '#FF5B37'}}>{success}</Text>} */}
+      {success && <Text style={styles.textSuccess}>{success}</Text>}
 
       <View style={{position: 'relative'}}>
         <Input
@@ -72,7 +86,6 @@ export default function Register() {
           editable={true}
           value={form.firstName}
           onChangeText={value => handleChange(value, 'firstName')}
-          // style={}
         />
       </View>
       <View style={{position: 'relative'}}>
@@ -122,6 +135,8 @@ export default function Register() {
         />
       </View>
 
+      {error && <Text style={styles.textError}>{error}</Text>}
+
       <Button onPress={handleSubmit}>
         {loading ? (
           <ActivityIndicator size="small" color="#DEDEDE" />
@@ -129,6 +144,13 @@ export default function Register() {
           <Text style={styles.textButton}>Join for free now</Text>
         )}
       </Button>
+
+      <Text
+        style={styles.textLink}
+        onPress={() => navigation.navigate('Login')}>
+        Do you already have an account?
+        <Text style={styles.textLinkSignin}> Sign in</Text>
+      </Text>
     </ScrollView>
   );
 }
@@ -158,7 +180,22 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     textAlign: 'center',
   },
-  error: {
-    borderColor: 'red',
+  textLink: {
+    textAlign: 'center',
+    marginTop: 30,
+    color: '#6E7191',
+  },
+  textLinkSignin: {
+    marginLeft: 8,
+    color: '#5F2EEA',
+  },
+  textError: {
+    color: '#FF5B37',
+    textAlign: 'center',
+    marginBottom: 30,
+  },
+  textSuccess: {
+    color: '#1EC15F',
+    textAlign: 'center',
   },
 });

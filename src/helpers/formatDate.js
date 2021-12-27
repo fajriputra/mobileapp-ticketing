@@ -72,3 +72,26 @@ export const getOnlyDateMonth = date => {
 
   return `${parse.getDate()} ${month[parse.getMonth()]}`;
 };
+
+export const getMonthDateYear = date => {
+  const parse = new Date(date);
+
+  const month = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  return `${
+    month[parse.getMonth()]
+  } ${parse.getDate()}, ${parse.getFullYear()}`;
+};

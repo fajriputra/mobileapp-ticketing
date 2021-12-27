@@ -13,10 +13,10 @@ import {
 
 import Icon from 'react-native-vector-icons/Feather';
 
-export default function DrawerContent() {
+export default function DrawerContent(props) {
   return (
     <View style={styles.container}>
-      <DrawerContentScrollView {...this.props}>
+      <DrawerContentScrollView {...props}>
         <View style={styles.containerProfile}>
           <View style={styles.avatar} />
           <View style={styles.biodata}>
@@ -24,7 +24,7 @@ export default function DrawerContent() {
             <Text style={styles.caption}>lepakboy</Text>
           </View>
         </View>
-        <DrawerItemList {...this.props} />
+        <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <View style={styles.containerSection}>
         <DrawerItem
@@ -32,7 +32,7 @@ export default function DrawerContent() {
           icon={({color, size}) => (
             <Icon color={color} size={size} name="log-out" />
           )}
-          onPress={this.handleLogout}
+          // onPress={this.handleLogout}
         />
       </View>
     </View>

@@ -3,7 +3,7 @@ import {USER_LOGIN} from '../constans';
 const initialState = {
   isError: false,
   isLoading: false,
-  user: {},
+  data: {},
   message: '',
 };
 
@@ -12,7 +12,7 @@ const auth = (state = initialState, action) => {
     case `${USER_LOGIN}_PENDING`:
       return {
         ...state,
-        user: {},
+        data: {},
         isError: false,
         isLoading: true,
       };
@@ -20,7 +20,7 @@ const auth = (state = initialState, action) => {
     case `${USER_LOGIN}_FULFILLED`:
       return {
         ...state,
-        user: action.payload.data.data,
+        data: action.payload.data.data,
         isError: false,
         isLoading: false,
         message: action.payload.data.data.message,
@@ -29,7 +29,7 @@ const auth = (state = initialState, action) => {
     case `${USER_LOGIN}_PENDING`:
       return {
         ...state,
-        user: {},
+        data: {},
         isError: true,
         isLoading: false,
         message: '',

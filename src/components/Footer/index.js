@@ -5,8 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 export default function Footer() {
   return (
-    <View>
-      <View style={styles.footer_innerContainer}>
+    <View style={{paddingHorizontal: 15}}>
+      <View>
         <Image
           source={require('../../assets/images/logo-tickitz.png')}
           style={styles.footer_brandLogo}
@@ -67,9 +67,6 @@ export default function Footer() {
 }
 
 const styles = StyleSheet.create({
-  footer_innerContainer: {
-    marginTop: 140,
-  },
   footer_brandLogo: {
     width: 132,
     marginTop: 75,

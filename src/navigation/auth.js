@@ -8,11 +8,11 @@ import {Login, Register} from '../screens/Auth';
 function AuthNavigator() {
   return (
     <Stack.Navigator initialRouteName="Login">
-      {/* <Stack.Screen
+      <Stack.Screen
         component={Login}
         name="Login"
         options={{headerShown: false}}
-      /> */}
+      />
       <Stack.Screen
         component={Register}
         name="Register"

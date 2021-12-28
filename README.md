@@ -1,6 +1,5 @@
-# mobileapp-ticketing
 <!-- TITTLE -->
-<h1> === FRONTEND TICKETING === </h1>
+<h1> === Mobile App Ticketing === </h1>
 
 
 <!-- TABLE OF CONTENTS -->
@@ -56,7 +55,7 @@ To build a project that I created requires several dependencies / packages, such
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/fajriputra/frontend-tiketinaja.git
+   git clone https://github.com/fajriputra/frontend-mobileapp-ticketing.git
    ```
 2. Install all packages on this project with the command below 
    ```sh

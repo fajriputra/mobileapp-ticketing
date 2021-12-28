@@ -3,6 +3,6 @@ import DetailPage from './DetailPage';
 // import OrderPage from './OrderPage';
 // import PaymentPage from './PaymentPage';
 import ProfilePage from './ProfilePage';
-// import TicketResult from './TicketResult';
+import TicketResult from './TicketResult';
 
-export {Home, DetailPage, ProfilePage};
+export {Home, DetailPage, TicketResult, ProfilePage};

@@ -1,7 +1,11 @@
 import React, {useState} from 'react';
 import {ScrollView, View, Text, StyleSheet} from 'react-native';
 import {Footer, Header} from '../../components';
-import {ProfileDetail, ProfileInfo} from '../../parts/ProfilePage';
+import {
+  ProfileDetail,
+  ProfileInfo,
+  OrderHistory,
+} from '../../parts/ProfilePage';
 
 export default function ProfilePage({navigation}) {
   const [tabAccount, setTabAccount] = useState(true);
@@ -26,8 +30,12 @@ export default function ProfilePage({navigation}) {
       </View>
 
       <View style={styles.innerContainer}>
-        <ProfileInfo />
-        {tabAccount ? <ProfileDetail /> : <Text>test</Text>}
+        {tabAccount && <ProfileInfo />}
+        {tabAccount ? (
+          <ProfileDetail />
+        ) : (
+          <OrderHistory navigation={navigation} />
+        )}
       </View>
       <Footer />
     </ScrollView>

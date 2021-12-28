@@ -1,13 +1,121 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
-import {View, Image, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ToastAndroid,
+  Alert,
+  PermissionsAndroid,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {REACT_APP_HOST} from '@env';
 
 import {capitalFirstLetter, toPascalCase} from '../../../helpers/convertText';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import axios from '../../../helpers/axios';
+
+import {getDataUser} from '../../../stores/user/actions';
 
 export default function ProfileInfo() {
+  const dispatch = useDispatch();
   const {data} = useSelector(state => state.user);
+
+  const handleUpdateImage = value => {
+    if (value === null || !value) {
+    } else {
+      const setData = {
+        image: value,
+      };
+
+      console.log('TERUPDATEEEEEEEEEEEE', setData);
+
+      const formData = new FormData();
+      for (const item in setData) {
+        formData.append(item, setData[item]);
+      }
+
+      // console.log(formData);
+
+      axios
+        .patch('/user/avatar', formData)
+        .then(res => {
+          console.log(res);
+          ToastAndroid.show(res.data.message, ToastAndroid.LONG);
+
+          dispatch(getDataUser());
+        })
+        .catch(err => {
+          console.log(err.response);
+          err.response.data.message &&
+            ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+        });
+    }
+  };
+
+  const handleImage = () => {
+    Alert.alert('Upload image', 'Choose your taked from', [
+      {
+        text: 'Gallery',
+        onPress: async () => {
+          try {
+            const result = await launchImageLibrary();
+
+            if (result.didCancel) {
+            } else {
+              handleUpdateImage({
+                uri: result.assets[0].uri,
+                name: result.assets[0].fileName,
+                type: result.assets[0].type,
+              });
+            }
+          } catch (err) {
+            err.response.data.message &&
+              ToastAndroid.show(err.response, ToastAndroid.LONG);
+          }
+        },
+      },
+
+      {
+        text: 'Camera',
+        onPress: async () => {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.CAMERA,
+            {
+              title: 'App Camera Permission',
+              message: 'App needs access to your camera',
+              buttonNeutral: 'Ask me later',
+              buttonNegative: 'Cancel',
+              buttonPositive: 'OK',
+            },
+          );
+
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            ToastAndroid.show('Camera permission given', ToastAndroid.LONG);
+
+            try {
+              const result = await launchCamera();
+              if (result.didCancel) {
+              } else {
+                handleUpdateImage({
+                  uri: result.assets[0].uri,
+                  name: result.assets[0].fileName,
+                  type: result.assets[0].type,
+                });
+              }
+            } catch (err) {
+              err.response &&
+                ToastAndroid.show(err.response, ToastAndroid.LONG);
+            }
+          } else {
+            ToastAndroid.show('Camera permisson denied', ToastAndroid.LONG);
+          }
+        },
+      },
+    ]);
+  };
 
   return (
     <View style={styles.cardProfile}>
@@ -38,7 +146,10 @@ export default function ProfileInfo() {
         </Text>
       </View>
 
-      <TouchableOpacity activeOpacity={1} style={styles.buttonChoosePhoto}>
+      <TouchableOpacity
+        activeOpacity={1}
+        style={styles.buttonChoosePhoto}
+        onPress={handleImage}>
         <Text style={styles.textChoosePhoto}>Choose Photo</Text>
       </TouchableOpacity>
     </View>
@@ -77,13 +188,12 @@ const styles = StyleSheet.create({
   imageWrapper: {
     width: 100,
     height: 100,
-    borderRadius: 100 / 2,
-    // backgroundColor: 'red',
     marginBottom: 20,
   },
   avatar: {
     width: '100%',
     height: '100%',
+    borderRadius: 50,
     resizeMode: 'cover',
   },
   textName: {

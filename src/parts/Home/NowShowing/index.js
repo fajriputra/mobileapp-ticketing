@@ -46,7 +46,8 @@ function NowShowing({navigation, data}) {
 
             <TouchableOpacity
               style={styles.button}
-              onPress={() => toDetailPage(item.id)}>
+              onPress={() => toDetailPage(item.id)}
+              activeOpacity={1}>
               <Text style={styles.buttonText}>Details</Text>
             </TouchableOpacity>
           </View>

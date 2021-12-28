@@ -229,8 +229,6 @@ export default function Showtimes() {
                 item.id === timeSchedule.scheduleId && styles.buttonActive,
                 ,
               ]}
-              onPress={() => alert('clicked')}
-              // activeOpacity={1}
               disabled={item.id !== timeSchedule.scheduleId}>
               <Text style={styles.textBook}>Book now</Text>
             </TouchableOpacity>

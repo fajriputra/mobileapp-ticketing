@@ -138,11 +138,24 @@ function Upcoming({navigation}) {
             ))}
           </>
         ) : (
-          <Text>
-            {monthNames[month]
-              ? `Movie by month ${monthNames[month]} is not found`
-              : 'Select a month to see the upcoming movies'}
-          </Text>
+          <View
+            style={{
+              textAlign: 'center',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignContent: 'center',
+              width: '100%',
+              backgroundColor: 'red',
+              marginLeft: '50%',
+              marginRight: '50%',
+              // marginHorizontal: 'auto',
+            }}>
+            <Text style={{}}>
+              {monthNames[month]
+                ? `Movie by month ${monthNames[month]} is not found`
+                : 'Select a month to see the upcoming movies'}
+            </Text>
+          </View>
         )}
       </ScrollView>
     </View>

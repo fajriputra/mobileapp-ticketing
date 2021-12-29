@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {ActivityIndicator, ScrollView, View} from 'react-native';
 
 import {Footer, Header} from '../../components';
@@ -28,10 +28,13 @@ export default function DetailPage({navigation, route}) {
       .then(res => {
         setDetailMovie(res.value.data.data);
       })
-
       .finally(() => {
         setLoading(false);
       });
+
+    return () => {
+      setLoading(false);
+    };
   }, [route.params.movieId]);
 
   if (loading) {
@@ -51,7 +54,7 @@ export default function DetailPage({navigation, route}) {
         <DetailInfo data={detailMovie[0]} />
       </View>
       <View style={{backgroundColor: '#F5F6F8', paddingHorizontal: 15}}>
-        <Showtimes />
+        <Showtimes movie={detailMovie[0]} navigation={navigation} />
       </View>
       <Footer />
     </ScrollView>

@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {REACT_APP_HOST} from '@env';
+import {ToastAndroid} from 'react-native';
 
 console.log('HOST', REACT_APP_HOST);
 
@@ -11,6 +12,8 @@ const instance = axios.create({
 const removeKey = async () => {
   await AsyncStorage.removeItem('token');
   await AsyncStorage.removeItem('id');
+
+  ToastAndroid.show('Token is expired, please login now', ToastAndroid.LONG);
 };
 
 instance.interceptors.request.use(

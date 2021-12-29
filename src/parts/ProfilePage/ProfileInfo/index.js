@@ -96,7 +96,11 @@ export default function ProfileInfo() {
             ToastAndroid.show('Camera permission given', ToastAndroid.LONG);
 
             try {
-              const result = await launchCamera();
+              const result = await launchCamera({
+                maxHeight: 10000,
+                maxWidth: 10000,
+                quality: 0.5,
+              });
               if (result.didCancel) {
               } else {
                 handleUpdateImage({

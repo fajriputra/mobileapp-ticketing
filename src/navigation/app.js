@@ -1,7 +1,14 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {Home, DetailPage, TicketResult, ProfilePage} from '../screens';
+import {
+  Home,
+  DetailPage,
+  OrderPage,
+  PaymentPage,
+  TicketResult,
+  ProfilePage,
+} from '../screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,16 +25,16 @@ export default function HomeNavigator() {
         name="DetailPage"
         options={{headerShown: false}}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         component={OrderPage}
         name="OrderPage"
         options={{headerShown: false}}
-      /> */}
-      {/* <Stack.Screen
+      />
+      <Stack.Screen
         component={PaymentPage}
         name="PaymentPage"
         options={{headerShown: false}}
-      /> */}
+      />
       <Stack.Screen
         component={TicketResult}
         name="TicketResult"

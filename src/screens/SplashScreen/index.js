@@ -16,8 +16,13 @@ export default function SplashScreen({navigation}) {
     }, 3000);
   };
 
+  // const remove = async () => {
+  //   await AsyncStorage.clear();
+  // };
+
   useEffect(() => {
     checkAuth();
+    // remove();
   }, []);
 
   return (

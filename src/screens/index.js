@@ -1,8 +1,8 @@
 import Home from './Home';
 import DetailPage from './DetailPage';
-// import OrderPage from './OrderPage';
-// import PaymentPage from './PaymentPage';
+import OrderPage from './OrderPage';
+import PaymentPage from './PaymentPage';
 import ProfilePage from './ProfilePage';
 import TicketResult from './TicketResult';
 
-export {Home, DetailPage, TicketResult, ProfilePage};
+export {Home, DetailPage, OrderPage, PaymentPage, TicketResult, ProfilePage};

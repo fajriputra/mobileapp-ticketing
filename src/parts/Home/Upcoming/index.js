@@ -139,18 +139,8 @@ function Upcoming({navigation}) {
           </>
         ) : (
           <View
-            style={{
-              textAlign: 'center',
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignContent: 'center',
-              width: '100%',
-              backgroundColor: 'red',
-              marginLeft: '50%',
-              marginRight: '50%',
-              // marginHorizontal: 'auto',
-            }}>
-            <Text style={{}}>
+            style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+            <Text style={{alignItems: 'center'}}>
               {monthNames[month]
                 ? `Movie by month ${monthNames[month]} is not found`
                 : 'Select a month to see the upcoming movies'}

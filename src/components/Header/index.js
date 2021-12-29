@@ -74,6 +74,14 @@ export default function Header({navigation}) {
             </View>
             <View style={styles.navigationLine} />
             <View>
+              <Text
+                style={styles.navigationLink}
+                onPress={() => moveScreen('OrderPage')}>
+                Order
+              </Text>
+            </View>
+            <View style={styles.navigationLine} />
+            <View>
               <Icon
                 name="log-out"
                 size={20}
@@ -103,15 +111,16 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
     paddingHorizontal: 15,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.0,
 
-    elevation: 24,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 12,
+    // },
+    // shadowOpacity: 0.58,
+    // shadowRadius: 16.0,
+
+    // elevation: 24,
   },
 
   logoBrand: {

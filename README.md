@@ -37,17 +37,13 @@ after that the user can choose the seat to be occupied while watching and integr
 To build a project that I created requires several dependencies / packages, such as:
 * [NodeJS](https://nodejs.org)
 * [axios](https://www.npmjs.com/package/axios)
-* [dotenv](https://www.npmjs.com/package/dotenv)
-* [node-sass](https://www.npmjs.com/package/node-sass)
-* [react-hook-form](https://www.npmjs.com/react-hook-form)
-* [react-router-dom](https://www.npmjs.com/package/react-router-dom)
+* [react-native)(https://reactnative.dev)
+* [react-native-dotenv](https://www.npmjs.com/package/react-native-dotenv)
 * [react-redux](https://www.npmjs.com/package/react-redux)
 * [redux](https://www.npmjs.com/package/redux)
 * [redux-persist](https://www.npmjs.com/package/redux-persist)
 * [redux-persist-transform-encrypt](https://www.npmjs.com/package/redux-persist-transform-encrypt)
 * [redux-promise-middleware](https://www.npmjs.com/package/redux-promise-middleware)
-* [react-spinners](https://www.npmjs.com/package/react-spinners)
-* [react-toastify](https://www.npmjs.com/package/react-toastify)
 
 ## Getting Started
 

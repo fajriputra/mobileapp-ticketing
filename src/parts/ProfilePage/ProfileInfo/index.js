@@ -30,25 +30,19 @@ export default function ProfileInfo() {
         image: value,
       };
 
-      console.log('TERUPDATEEEEEEEEEEEE', setData);
-
       const formData = new FormData();
       for (const item in setData) {
         formData.append(item, setData[item]);
       }
 
-      // console.log(formData);
-
       axios
         .patch('/user/avatar', formData)
         .then(res => {
-          console.log(res);
           ToastAndroid.show(res.data.message, ToastAndroid.LONG);
 
           dispatch(getDataUser());
         })
         .catch(err => {
-          console.log(err.response);
           err.response.data.message &&
             ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
         });
@@ -61,7 +55,11 @@ export default function ProfileInfo() {
         text: 'Gallery',
         onPress: async () => {
           try {
-            const result = await launchImageLibrary();
+            const result = await launchImageLibrary({
+              maxHeight: 10000,
+              maxWidth: 10000,
+              quality: 0.5,
+            });
 
             if (result.didCancel) {
             } else {

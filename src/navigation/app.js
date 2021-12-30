@@ -3,11 +3,13 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {
   Home,
+  SearchMoviePage,
   DetailPage,
   OrderPage,
   PaymentPage,
   TicketResult,
   ProfilePage,
+  Midtrans,
 } from '../screens';
 
 const Stack = createNativeStackNavigator();
@@ -18,6 +20,11 @@ export default function HomeNavigator() {
       <Stack.Screen
         component={Home}
         name="Home"
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        component={SearchMoviePage}
+        name="SearchMoviePage"
         options={{headerShown: false}}
       />
       <Stack.Screen
@@ -33,6 +40,11 @@ export default function HomeNavigator() {
       <Stack.Screen
         component={PaymentPage}
         name="PaymentPage"
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        component={Midtrans}
+        name="Midtrans"
         options={{headerShown: false}}
       />
       <Stack.Screen

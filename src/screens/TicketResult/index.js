@@ -6,7 +6,6 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  ToastAndroid,
   ActivityIndicator,
 } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
@@ -16,11 +15,9 @@ import axios from '../../helpers/axios';
 import {formatAMPM} from '../../helpers/formatTime';
 import {formatRp} from '../../helpers/formatRp';
 import {getOnlyDateMonth} from '../../helpers/formatDate';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 function TicketResult({navigation, route}) {
   const [loading, setLoading] = useState(false);
-  const [download, setDownload] = useState(false);
   const [dataBooking, setDataBooking] = useState({});
 
   useEffect(() => {
@@ -34,20 +31,6 @@ function TicketResult({navigation, route}) {
         setLoading(false);
       });
   }, [route.params.movieId]);
-
-  const handlePdf = () => {
-    setDownload(true);
-
-    axios
-      .get(`/booking/export-ticket/${dataBooking.id}`)
-      .then(res => {
-        ToastAndroid.show(res.data.message, ToastAndroid.LONG);
-        window.open(`${res.data.data.url}`, '_blank', 'noopener noreferrer');
-      })
-      .finally(() => {
-        setDownload(false);
-      });
-  };
 
   if (loading) {
     return (
@@ -116,15 +99,11 @@ function TicketResult({navigation, route}) {
         </View>
 
         <View style={{alignItems: 'center'}}>
-          <TouchableOpacity onPress={handlePdf} style={styles.button}>
-            {download ? (
-              <ActivityIndicator size="small" color="#4E4B66" />
-            ) : (
-              <>
-                <Icon name="download" size={20} />
-                <Text style={styles.buttonText}>Download PDF</Text>
-              </>
-            )}
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Home')}
+            style={styles.button}
+            activeOpacity={1}>
+            <Text style={styles.buttonText}>Back to home</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -212,7 +191,6 @@ const styles = StyleSheet.create({
     color: '#4E4B66',
     fontWeight: '600',
     fontSize: 16,
-    paddingLeft: 10,
   },
 });
 

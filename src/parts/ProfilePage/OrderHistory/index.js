@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
-  Platform,
 } from 'react-native';
 
 import ebvid from '../../../assets/images/sponsor/logo-ebvid.png';
@@ -18,6 +17,7 @@ import cineone from '../../../assets/images/sponsor/logo-cineone.png';
 import axios from '../../../helpers/axios';
 import {formatDate} from '../../../helpers/formatDate';
 import {formatAMPM} from '../../../helpers/formatTime';
+import Notifications from '../../../helpers/notifications';
 
 export default function OrderHistory({navigation}) {
   const {data} = useSelector(state => state.user);
@@ -30,15 +30,51 @@ export default function OrderHistory({navigation}) {
     axios
       .get(`/booking/user-id/${data.id}`)
       .then(res => {
+        res.data.data.filter(item => {
+          item.statusTicket === 'Active' &&
+            Notifications.reminderNotifications(
+              'Attention',
+              `Hello ${data.firstName}, you have an unused ticket, please use it immediately and enjoy watching`,
+            );
+
+          // console.log(
+          //   new Date(item.dateBooking).setHours(
+          //     new Date().getHours() + item.timeBooking,
+          //   ),
+          // );
+          // if (new Date(item.dateBooking) < new Date()) {
+          //   Notifications.scheduleNotifications(
+          //     `Hello ${data.firstName}, you have an unused ticket, please use it immediately and enjoy watching`,
+          //     'day',
+          //     1,
+          //   );
+          // }
+          //  else if (new Date(item.dateBooking) === new Date()) {
+          //             Notifications.scheduleNotifications(
+          //               `Hello ${data.firstName}, you have an expired ticket movie ${item.name}`,
+          //               '',
+          //               '',
+          //             );
+          //           }
+        });
+
         setDataBooking(res.data.data);
       })
       .finally(() => {
         setLoading(false);
       });
+
+    return () => {
+      setLoading(false);
+    };
   }, [data.id]);
 
   const moveTicket = id => {
     navigation.navigate('TicketResult', {movieId: id});
+  };
+
+  const continuePayment = url => {
+    navigation.navigate('Midtrans', {query: {urlRedirect: url}});
   };
 
   return (
@@ -95,14 +131,7 @@ export default function OrderHistory({navigation}) {
               {item.statusPayment === 'pending' && (
                 <Text
                   style={styles.seeTicket}
-                  onPress={() => {
-                    Platform.OS == 'web' &&
-                      window.open(
-                        item.urlRedirect,
-                        '_blank',
-                        'noopener noreferrer',
-                      );
-                  }}>
+                  onPress={() => continuePayment(item.urlRedirect)}>
                   Pay here
                 </Text>
               )}

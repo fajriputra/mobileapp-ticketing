@@ -14,8 +14,6 @@ import {formatRp} from '../../helpers/formatRp';
 import axios from '../../helpers/axios';
 
 export default function PaymentPage({navigation, route}) {
-  console.log(route);
-
   const [loading, setLoading] = useState(false);
   const {dataMovie, dateSchedule, timeSchedule, schedule, seats} =
     route.params.query;
@@ -58,7 +56,7 @@ export default function PaymentPage({navigation, route}) {
 
         <Button onPress={handlePayment}>
           {loading ? (
-            <ActivityIndicator size="small" color="ffffff" />
+            <ActivityIndicator size="small" color="#ffffff" />
           ) : (
             <Text style={styles.textPay}>Pay your order</Text>
           )}

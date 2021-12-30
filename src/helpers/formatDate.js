@@ -26,7 +26,7 @@ export const formatDate = date => {
     'Sunday',
   ];
 
-  return `${day[parse.getDay()]}, ${parse.getDate()} ${
+  return `${day[parse.getDay() - 1]}, ${parse.getDate()} ${
     month[parse.getMonth()]
   } ${parse.getFullYear()}`;
 };

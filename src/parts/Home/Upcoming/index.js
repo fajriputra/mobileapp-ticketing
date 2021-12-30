@@ -69,7 +69,11 @@ function Upcoming({navigation}) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.upComing}>Upcoming Movies</Text>
-        <Text style={styles.viewAll}>view all</Text>
+        <Text
+          style={styles.viewAll}
+          onPress={() => navigation.navigate('SearchMoviePage')}>
+          view all
+        </Text>
       </View>
 
       <ScrollView

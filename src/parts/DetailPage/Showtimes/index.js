@@ -276,6 +276,7 @@ export default function Showtimes({navigation, movie}) {
                   ,
                 ]}
                 onPress={() => handleBooking(item)}
+                activeOpacity={1}
                 disabled={item.id !== timeSchedule.scheduleId}>
                 <Text style={styles.textBook}>Book now</Text>
               </TouchableOpacity>

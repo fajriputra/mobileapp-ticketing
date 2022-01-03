@@ -13,11 +13,34 @@ import {
 
 import {Input, Header, Footer} from '../../components';
 
+const data = [
+  {
+    id: 1,
+    name: 'asd1',
+  },
+  {
+    id: 2,
+    name: 'asd2',
+  },
+  {
+    id: 3,
+    name: 'asd3',
+  },
+  {
+    id: 4,
+    name: 'asd4',
+  },
+  {
+    id: 5,
+    name: 'asd5',
+  },
+];
+
 export default function SearchMoviePage({navigation}) {
   return (
-    <View>
+    <ScrollView>
       <Header navigation={navigation} />
-      <ScrollView style={styles.innerContainer}>
+      <View style={styles.innerContainer}>
         <View style={styles.wrapperSearch}>
           <Input placeholder="Search keyword here" />
 
@@ -26,26 +49,38 @@ export default function SearchMoviePage({navigation}) {
           </TouchableOpacity>
         </View>
 
-        {/* flatlist */}
-      </ScrollView>
-
-      <View style={{flex: 1}}>
-        <Footer />
+        <FlatList
+          // horizontal
+          data={data}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <View
+              style={{
+                height: 100,
+                // width: 100,
+                backgroundColor: 'red',
+                marginVertical: 20,
+                // marginRight: 20,
+              }}>
+              <Text>{item.name}</Text>
+            </View>
+          )}
+        />
       </View>
-    </View>
+
+      <Footer />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   innerContainer: {
-    flex: 1,
     paddingHorizontal: 15,
-    backgroundColor: 'red',
+    backgroundColor: 'gray',
   },
   wrapperSearch: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // backgroundColor: 'red',
   },
 });

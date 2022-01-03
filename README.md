@@ -27,7 +27,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-About this project, I am building a web service for a cinema ticket booking system, 
+About this project, I am building a Mobile Application for a cinema ticket booking system, 
 where the user will be able to select a film based on the show schedule and location, 
 after that the user can choose the seat to be occupied while watching and integration with [Midtrans](https://midtrans.com) for payment method 
 
@@ -63,7 +63,7 @@ To build a project that I created requires several dependencies / packages, such
    ```
 5. Then, you can running this project with the command below 
    ```
-   npm start / npm run start
+   npm run android
    ```
    
 <!-- CONTACT -->

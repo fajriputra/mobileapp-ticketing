@@ -37,7 +37,7 @@ after that the user can choose the seat to be occupied while watching and integr
 To build a project that I created requires several dependencies / packages, such as:
 * [NodeJS](https://nodejs.org)
 * [axios](https://www.npmjs.com/package/axios)
-* [react-native)(https://reactnative.dev)
+* [react-native](https://reactnative.dev)
 * [react-native-dotenv](https://www.npmjs.com/package/react-native-dotenv)
 * [react-redux](https://www.npmjs.com/package/react-redux)
 * [redux](https://www.npmjs.com/package/redux)

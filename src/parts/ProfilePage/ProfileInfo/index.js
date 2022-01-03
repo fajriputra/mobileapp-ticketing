@@ -27,7 +27,7 @@ export default function ProfileInfo() {
     if (value === null || !value) {
     } else {
       const setData = {
-        image: value,
+        avatar: value,
       };
 
       const formData = new FormData();
@@ -99,6 +99,7 @@ export default function ProfileInfo() {
                 maxWidth: 10000,
                 quality: 0.5,
               });
+
               if (result.didCancel) {
               } else {
                 handleUpdateImage({

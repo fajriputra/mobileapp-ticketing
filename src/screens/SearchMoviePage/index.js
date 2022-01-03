@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   View,
-  ScrollView,
   Text,
   FlatList,
   StyleSheet,
@@ -12,14 +11,14 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Input, Header, Footer} from '../../components';
+import {Input, Header} from '../../components';
 import {REACT_APP_HOST} from '@env';
 
 import {getMovieFilter} from '../../stores/movies/actions';
 
 const initialState = {
   page: 1,
-  limit: 3,
+  limit: 4,
   keyword: '',
   month: '',
   sortBy: 'name',
@@ -30,41 +29,88 @@ export default function SearchMoviePage({navigation}) {
   const dispatch = useDispatch();
   const movies = useSelector(state => state.movies);
 
-  const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  const [lastPage, setLastPage] = useState(false);
+  const [loadMore, setLoadMore] = useState(false);
+  const [loadingSearch, setLoadingSearch] = useState(false);
+  const [loadingInfinite, setLoadingInfinite] = useState(false);
   const [queryMovie, setQueryMovie] = useState(initialState);
   const [filtered, setFiltered] = useState(movies.data);
+  const [wrapperKeyword, setWrapperKeyword] = useState('');
 
   const toDetailPage = id => {
     navigation.navigate('DetailPage', {movieId: id});
   };
 
   const handleChangeKeyword = value => {
-    setQueryMovie({...queryMovie, keyword: value});
+    setWrapperKeyword(value);
   };
+
+  useEffect(() => {
+    getData();
+  }, [queryMovie.page, queryMovie.keyword]);
 
   const handleSearch = () => {
-    setLoading(true);
-    dispatch(
-      getMovieFilter(
-        1,
-        queryMovie.limit,
-        queryMovie.keyword,
-        queryMovie.month,
-        queryMovie.sortBy,
-        queryMovie.sortType,
-      ),
-    )
-      .then(res => {
-        setFiltered(res.value.data.data);
-      })
-      .finally(() => {
-        setQueryMovie(initialState);
-        setLoading(false);
-      });
+    setLoadingSearch(true);
+    setQueryMovie({...queryMovie, page: 1, keyword: wrapperKeyword});
+
+    getData();
   };
 
+  const getData = () => {
+    if (queryMovie.page <= movies?.pageInfo?.totalPage) {
+      dispatch(
+        getMovieFilter(
+          queryMovie.page,
+          queryMovie.limit,
+          queryMovie.keyword,
+          queryMovie.month,
+          queryMovie.sortBy,
+          queryMovie.sortType,
+        ),
+      )
+        .then(res => {
+          if (queryMovie.page === 1) {
+            setFiltered(res.value.data.data);
+          } else {
+            setFiltered([...filtered, ...res.value.data.data]);
+          }
+        })
+        .finally(() => {
+          setWrapperKeyword('');
+          setLoadingSearch(false);
+          setLoadingInfinite(false);
+          setRefresh(false);
+          setLoadMore(false);
+        });
+    } else {
+      setLastPage(true);
+    }
+  };
+
+  const handleRefresh = () => {
+    setQueryMovie({...queryMovie, page: 1});
+    setLastPage(false);
+    if (queryMovie.page !== 1) {
+      setRefresh(true);
+    }
+  };
+
+  const handleLoadMore = () => {
+    if (!loadMore) {
+      const newPage = queryMovie.page + 1;
+      setLoadMore(true);
+
+      if (newPage <= movies?.pageInfo?.totalPage + 1) {
+        setLoadingInfinite(true);
+        setQueryMovie({...queryMovie, page: newPage});
+      } else {
+        setLoadingInfinite(false);
+      }
+    }
+  };
   return (
-    <ScrollView style={{backgroundColor: '#ffffff'}}>
+    <View style={{backgroundColor: '#ffffff'}}>
       <Header navigation={navigation} />
       <View style={styles.innerContainer}>
         <View style={styles.wrapperSearch}>
@@ -73,7 +119,7 @@ export default function SearchMoviePage({navigation}) {
             keyboardType="default"
             secureTextEntry={false}
             editable={true}
-            value={queryMovie.keyword}
+            value={wrapperKeyword}
             onChangeText={value => handleChangeKeyword(value)}
           />
 
@@ -85,8 +131,10 @@ export default function SearchMoviePage({navigation}) {
           </TouchableOpacity>
         </View>
 
-        {loading ? (
-          <ActivityIndicator size="large" color="#5F2EEA" />
+        {loadingSearch ? (
+          <View style={{marginVertical: 40}}>
+            <ActivityIndicator size="large" color="#5F2EEA" />
+          </View>
         ) : filtered.length > 0 ? (
           <FlatList
             showsVerticalScrollIndicator={false}
@@ -121,16 +169,29 @@ export default function SearchMoviePage({navigation}) {
               </View>
             )}
             keyExtractor={item => item.id}
+            onRefresh={handleRefresh}
+            refreshing={refresh}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.1}
+            ListFooterComponent={() =>
+              lastPage ? (
+                <Text style={{height: 450}}>No more data</Text>
+              ) : (
+                loadingInfinite && (
+                  <View style={{height: 500}}>
+                    <ActivityIndicator size="large" color="#5F2EEA" />
+                  </View>
+                )
+              )
+            }
           />
         ) : (
           <View style={styles.notFound}>
-            <Text>Movie are you looking for was not found</Text>
+            <Text>Movie {queryMovie.keyword} was not found</Text>
           </View>
         )}
       </View>
-
-      <Footer />
-    </ScrollView>
+    </View>
   );
 }
 
@@ -142,7 +203,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    marginBottom: 40,
   },
   buttonSearch: {
     backgroundColor: '#5F2EEA',
@@ -152,10 +212,12 @@ const styles = StyleSheet.create({
   iconSearch: {
     justifyContent: 'center',
     alignItems: 'center',
+    fontSize: 18,
   },
   content: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginVertical: 40,
   },
   wrapImage: {
     borderColor: '#DEDEDE',
@@ -203,5 +265,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     color: '#000000',
+    marginVertical: 40,
   },
 });

@@ -14,7 +14,7 @@ export default function Input(props) {
 
   return (
     <View>
-      <Text style={styles.label}>{label}</Text>
+      {label && <Text style={styles.label}>{label}</Text>}
       <TextInput
         style={[styles.formControl]}
         keyboardType={keyboardType}

@@ -7,7 +7,7 @@ const initialState = {
   data: [],
   dataFiltered: [],
   dataById: {},
-  pageInfo: {},
+  pageInfo: {totalPage: 2},
 };
 
 const movies = (state = initialState, action) => {

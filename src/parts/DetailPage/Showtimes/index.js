@@ -9,7 +9,6 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Image,
-  FlatList,
   ActivityIndicator,
 } from 'react-native';
 import {Picker} from '@react-native-picker/picker';
@@ -24,10 +23,11 @@ import {formatAMPM} from '../../../helpers/formatTime';
 import ebvid from '../../../assets/images/sponsor/logo-ebvid.png';
 import hiflix from '../../../assets/images/sponsor/logo-hiflix.png';
 import cinone from '../../../assets/images/sponsor/logo-cineone.png';
+import Pagination from '../../../components/Pagination';
 
 const initialState = {
   page: 1,
-  limit: 6,
+  limit: 4,
   movieId: '',
   location: '',
   sortType: 'asc',
@@ -36,13 +36,10 @@ const initialState = {
 export default function Showtimes({navigation, movie}) {
   const dispatch = useDispatch();
   const {data} = useSelector(state => state.location);
-  // const {pageInfo} = useSelector(state => state.schedules);
+  const {pageInfo} = useSelector(state => state.schedules);
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  // const [refresh, setRefresh] = useState(false);
-  // const [lastPage, setLastPage] = useState(false);
-  // const [loadMore, setLoadMore] = useState(false);
   const [querySchedule, setQuerySchedule] = useState(initialState);
   const [timeSchedule, setTimeSchedule] = useState('');
   const [dateSchedule, setDateSchedule] = useState(new Date());
@@ -59,8 +56,6 @@ export default function Showtimes({navigation, movie}) {
   useEffect(() => {
     setLoading(true);
     dispatch(getLocation());
-    // getData();
-
     dispatch(getSchedule(page, limit, movieId, location, sortType))
       .then(res => {
         setFiltered(res.value.data.data);
@@ -73,25 +68,6 @@ export default function Showtimes({navigation, movie}) {
       setLoading(false);
     };
   }, [dispatch, page]);
-
-  // const getData = async () => {
-  //   setRefresh(false);
-  //   setLoading(false);
-  //   setLoadMore(false);
-  //   if (page <= pageInfo.totalPage) {
-  //     const res = await dispatch(
-  //       getSchedule(page, limit, movieId, location, sortType),
-  //     );
-
-  //     if (page === 1) {
-  //       setFiltered(res.value.data.data);
-  //     } else {
-  //       setFiltered([...filtered, ...res.value.data.data]);
-  //     }
-  //   } else {
-  //     setLastPage(true);
-  //   }
-  // };
 
   const handleChooseDate = value => {
     const dateNow = new Date().toISOString().split('T')[0];
@@ -113,32 +89,9 @@ export default function Showtimes({navigation, movie}) {
     });
   };
 
-  // const handleRefresh = () => {
-  //   console.log('REFRESH');
-  //   setQuerySchedule({page: 1});
-  //   setLastPage(false);
-  //   if (page !== 1) {
-  //     setRefresh(true);
-  //   } else {
-  //     getData();
-  //   }
-  // };
-
-  // const handleLoadMore = () => {
-  //   console.log('LOAD MORE');
-  //   if (!loadMore) {
-  //     const newPage = page + 1;
-  //     setLoadMore(true);
-  //     if (newPage <= pageInfo.totalPage + 1) {
-  //       setLoading(true);
-  //       setQuerySchedule({page: newPage});
-  //     } else {
-  //       setLoading(false);
-  //     }
-  //   }
-  // };
-
-  // console.log(movie);
+  const handlePagination = value => {
+    setQuerySchedule({...querySchedule, page: value});
+  };
 
   const handleBooking = data => {
     navigation.navigate('OrderPage', {query: {...passingData, schedule: data}});
@@ -216,86 +169,75 @@ export default function Showtimes({navigation, movie}) {
         </View>
       </View>
       {loading ? (
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <View
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: 40,
+          }}>
           <ActivityIndicator size="large" color="#5F2EEA" />
         </View>
       ) : filtered.length > 0 ? (
-        <FlatList
-          data={filtered}
-          renderItem={({item}) => (
-            <View style={styles.cardSchedule} key={item.id}>
-              <View style={styles.cardSchedule_header}>
-                <View style={styles.imageWrapper}>
-                  <Image
-                    source={
-                      item.premier === 'ebv.id'
-                        ? ebvid
-                        : item.premier === 'hiflix Cinema'
-                        ? hiflix
-                        : item.premier === 'CineOne21'
-                        ? cinone
-                        : {
-                            uri: 'https://www.a1hosting.net/wp-content/themes/arkahost/assets/images/default.jpg',
-                          }
-                    }
-                    style={styles.imagePremiere}
-                  />
-                </View>
-                <Text style={styles.address}>{item.location}</Text>
+        filtered.map(item => (
+          <View style={styles.cardSchedule} key={item.id}>
+            <View style={styles.cardSchedule_header}>
+              <View style={styles.imageWrapper}>
+                <Image
+                  source={
+                    item.premier === 'ebv.id'
+                      ? ebvid
+                      : item.premier === 'hiflix Cinema'
+                      ? hiflix
+                      : item.premier === 'CineOne21'
+                      ? cinone
+                      : {
+                          uri: 'https://www.a1hosting.net/wp-content/themes/arkahost/assets/images/default.jpg',
+                        }
+                  }
+                  style={styles.imagePremiere}
+                />
               </View>
-
-              <View style={styles.lineBreak} />
-
-              <View style={styles.cardTime}>
-                {item.time.map((tm, index) => (
-                  <Text
-                    key={index}
-                    style={[
-                      styles.textTime,
-                      item.id === timeSchedule.scheduleId &&
-                        tm === timeSchedule.timeSchedule &&
-                        styles.timeActive,
-                    ]}
-                    onPress={() => handleTime(tm, item.id)}>
-                    {formatAMPM(tm)}
-                  </Text>
-                ))}
-              </View>
-
-              <View style={styles.priceWrapper}>
-                <Text style={styles.textPrice}>Price</Text>
-                <Text style={styles.textPriceNumber}>
-                  {formatRp(item.price)}/seat
-                </Text>
-              </View>
-
-              <TouchableOpacity
-                style={[
-                  styles.buttonBook,
-                  item.id === timeSchedule.scheduleId && styles.buttonActive,
-                  ,
-                ]}
-                onPress={() => handleBooking(item)}
-                activeOpacity={1}
-                disabled={item.id !== timeSchedule.scheduleId}>
-                <Text style={styles.textBook}>Book now</Text>
-              </TouchableOpacity>
+              <Text style={styles.address}>{item.location}</Text>
             </View>
-          )}
-          // onRefresh={handleRefresh}
-          // refreshing={refresh}
-          // onEndReached={handleLoadMore}
-          // onEndReachedThreshold={0.1}
-          // ListFooterComponent={() =>
-          //   lastPage ? (
-          //     <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          //       <Text>-- No more data found --</Text>
-          //     </View>
-          //   ) : (
-          //     loading && <ActivityIndicator size="large" color="blue" />
-          //   )
-          // }
-        />
+
+            <View style={styles.lineBreak} />
+
+            <View style={styles.cardTime}>
+              {item.time.map((tm, index) => (
+                <Text
+                  key={index}
+                  style={[
+                    styles.textTime,
+                    item.id === timeSchedule.scheduleId &&
+                      tm === timeSchedule.timeSchedule &&
+                      styles.timeActive,
+                  ]}
+                  onPress={() => handleTime(tm, item.id)}>
+                  {formatAMPM(tm)}
+                </Text>
+              ))}
+            </View>
+
+            <View style={styles.priceWrapper}>
+              <Text style={styles.textPrice}>Price</Text>
+              <Text style={styles.textPriceNumber}>
+                {formatRp(item.price)}/seat
+              </Text>
+            </View>
+
+            <TouchableOpacity
+              style={[
+                styles.buttonBook,
+                item.id === timeSchedule.scheduleId && styles.buttonActive,
+                ,
+              ]}
+              onPress={() => handleBooking(item)}
+              activeOpacity={1}
+              disabled={item.id !== timeSchedule.scheduleId}>
+              <Text style={styles.textBook}>Book now</Text>
+            </TouchableOpacity>
+          </View>
+        ))
       ) : (
         <View
           style={{
@@ -305,6 +247,15 @@ export default function Showtimes({navigation, movie}) {
           }}>
           <Text>Schedule is not available at {querySchedule.location}</Text>
         </View>
+      )}
+
+      {filtered.length > 0 && (
+        <Pagination
+          totalItems={pageInfo.totalData}
+          currentPage={page}
+          onPageChange={value => handlePagination(value)}
+          perPage={limit}
+        />
       )}
     </View>
   );
@@ -362,7 +313,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   address: {
-    // width: 212,
     lineHeight: 22,
     color: '#AAAAAA',
     textAlign: 'center',

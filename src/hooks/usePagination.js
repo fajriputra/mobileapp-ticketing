@@ -13,7 +13,7 @@ export const usePagination = ({
     const totalPages = Math.ceil(totalItems / perPage);
 
     // jumlah page ditentukan sbg sibling, first, last, current page
-    const totalPageNumbers = siblingCount + 5;
+    const totalPageNumbers = siblingCount + 3;
 
     // case 1, jika jumlah halaman kurang dari jumlah yang ingin ditampilkan
     if (totalPageNumbers >= totalPages) {

@@ -10,14 +10,13 @@ export default function Input(props) {
     secureTextEntry,
     editable,
     label,
-    style,
   } = props;
 
   return (
     <View>
       <Text style={styles.label}>{label}</Text>
       <TextInput
-        style={[styles.formControl, style]}
+        style={[styles.formControl]}
         keyboardType={keyboardType}
         editable={editable}
         value={value}

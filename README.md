@@ -42,7 +42,6 @@ To build a project that I created requires several dependencies / packages, such
 * [react-redux](https://www.npmjs.com/package/react-redux)
 * [redux](https://www.npmjs.com/package/redux)
 * [redux-persist](https://www.npmjs.com/package/redux-persist)
-* [redux-persist-transform-encrypt](https://www.npmjs.com/package/redux-persist-transform-encrypt)
 * [redux-promise-middleware](https://www.npmjs.com/package/redux-promise-middleware)
 
 ## Getting Started
@@ -73,4 +72,4 @@ AL FAJRI PUTRA PRATAMA
 - Instagram : [@fjri.p](https://instagram.com/fjri.p)
 - Linkedin : [fajriputra](https://www.linkedin.com/in/fajriputra)
 
-PROJECT LINK [here](https://ticketingapp.netlify.app/)
+You can try to download the app on this [link](https://drive.google.com/drive/folders/1menFj3YW0E8r8SmO8Whm40xgDncXTS8n?usp=sharing) debug version

@@ -72,4 +72,4 @@ AL FAJRI PUTRA PRATAMA
 - Instagram : [@fjri.p](https://instagram.com/fjri.p)
 - Linkedin : [fajriputra](https://www.linkedin.com/in/fajriputra)
 
-You can try to download the app on this [link](https://drive.google.com/drive/folders/1menFj3YW0E8r8SmO8Whm40xgDncXTS8n?usp=sharing) debug version
+You can try to download the app on this [link](https://drive.google.com/drive/folders/1menFj3YW0E8r8SmO8Whm40xgDncXTS8n?usp=sharing) (debug version)

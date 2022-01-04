@@ -60,6 +60,7 @@ export default function Showtimes({navigation, movie}) {
       .then(res => {
         setFiltered(res.value.data.data);
       })
+      .catch(err => console.log(err.response.data.message))
       .finally(() => {
         setLoading(false);
       });
@@ -67,7 +68,7 @@ export default function Showtimes({navigation, movie}) {
     return () => {
       setLoading(false);
     };
-  }, [dispatch, page]);
+  }, [dispatch, limit, location, movieId, page, sortType]);
 
   const handleChooseDate = value => {
     const dateNow = new Date().toISOString().split('T')[0];
@@ -79,8 +80,9 @@ export default function Showtimes({navigation, movie}) {
     }
   };
 
-  const handleSelectedLocation = value =>
+  const handleSelectedLocation = value => {
     setQuerySchedule({...querySchedule, location: value, page: 1});
+  };
 
   const handleTime = (time, scheduleId) => {
     setTimeSchedule({
@@ -229,7 +231,6 @@ export default function Showtimes({navigation, movie}) {
               style={[
                 styles.buttonBook,
                 item.id === timeSchedule.scheduleId && styles.buttonActive,
-                ,
               ]}
               onPress={() => handleBooking(item)}
               activeOpacity={1}
@@ -251,10 +252,10 @@ export default function Showtimes({navigation, movie}) {
 
       {filtered.length > 0 && (
         <Pagination
-          totalItems={pageInfo.totalData}
+          totalData={pageInfo?.totalData}
           currentPage={page}
           onPageChange={value => handlePagination(value)}
-          perPage={limit}
+          limit={limit}
         />
       )}
     </View>

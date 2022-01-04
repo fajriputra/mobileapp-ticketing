@@ -4,16 +4,16 @@ import {range} from '../helpers/rangePagination';
 export const DOTS = '...';
 
 export const usePagination = ({
-  totalItems,
-  perPage,
+  totalData,
+  limit,
   siblingCount = 1,
   currentPage,
 }) => {
   const paginationRange = useMemo(() => {
-    const totalPages = Math.ceil(totalItems / perPage);
+    const totalPages = Math.ceil(totalData / limit);
 
     // jumlah page ditentukan sbg sibling, first, last, current page
-    const totalPageNumbers = siblingCount + 3;
+    const totalPageNumbers = siblingCount + 5;
 
     // case 1, jika jumlah halaman kurang dari jumlah yang ingin ditampilkan
     if (totalPageNumbers >= totalPages) {
@@ -24,7 +24,7 @@ export const usePagination = ({
     const leftSiblingIndex = Math.max(currentPage - siblingCount, 1);
     const rightSiblingIndex = Math.min(currentPage + siblingCount, totalPages);
 
-    // hide dots ketika hanya 1 nomor halaman
+    // hide dots ketika hanya 1 page
     const showLeftDots = leftSiblingIndex > 2;
     const showRightDots = rightSiblingIndex < totalPages - 2;
 
@@ -53,7 +53,7 @@ export const usePagination = ({
 
       return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
     }
-  }, [totalItems, perPage, siblingCount, currentPage]);
+  }, [totalData, limit, siblingCount, currentPage]);
 
   return paginationRange;
 };

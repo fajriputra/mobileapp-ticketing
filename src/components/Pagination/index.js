@@ -4,19 +4,13 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {usePagination, DOTS} from '../../hooks/usePagination';
 
 export default function Pagination(props) {
-  const {
-    totalItems,
-    siblingCount = 1,
-    currentPage,
-    onPageChange,
-    perPage,
-  } = props;
+  const {totalData, siblingCount = 1, currentPage, onPageChange, limit} = props;
 
   const paginationRange = usePagination({
     currentPage,
-    totalItems,
+    totalData,
     siblingCount,
-    perPage,
+    limit,
   });
 
   if (currentPage === 0 || paginationRange < 2) {
@@ -28,7 +22,10 @@ export default function Pagination(props) {
       {paginationRange?.map((item, index) => {
         if (item === DOTS) {
           return (
-            <TouchableOpacity activeOpacity={1} style={styles.pageItem}>
+            <TouchableOpacity
+              activeOpacity={1}
+              style={styles.pageItem}
+              key={index}>
               <Text style={styles.pageLink}>&#8230;</Text>
             </TouchableOpacity>
           );

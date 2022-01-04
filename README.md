@@ -51,7 +51,7 @@ To build a project that I created requires several dependencies / packages, such
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/fajriputra/frontend-mobileapp-ticketing.git
+   git clone https://github.com/fajriputra/mobileapp-ticketing.git
    ```
 2. Install all packages on this project with the command below 
    ```sh

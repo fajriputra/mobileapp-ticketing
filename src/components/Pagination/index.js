@@ -72,8 +72,8 @@ const styles = StyleSheet.create({
     borderColor: '#DEDEDE',
     borderStyle: 'solid',
     borderWidth: 1,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+    paddingVertical: 7,
+    paddingHorizontal: 14,
     marginRight: 8,
   },
   pageItemActive: {

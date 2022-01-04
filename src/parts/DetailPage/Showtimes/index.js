@@ -23,7 +23,7 @@ import {formatAMPM} from '../../../helpers/formatTime';
 import ebvid from '../../../assets/images/sponsor/logo-ebvid.png';
 import hiflix from '../../../assets/images/sponsor/logo-hiflix.png';
 import cinone from '../../../assets/images/sponsor/logo-cineone.png';
-import Pagination from '../../../components/Pagination';
+import {Pagination} from '../../../components';
 
 const initialState = {
   page: 1,
@@ -60,7 +60,6 @@ export default function Showtimes({navigation, movie}) {
       .then(res => {
         setFiltered(res.value.data.data);
       })
-      .catch(err => console.log(err.response.data.message))
       .finally(() => {
         setLoading(false);
       });

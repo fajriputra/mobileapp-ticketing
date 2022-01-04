@@ -30,32 +30,12 @@ export default function OrderHistory({navigation}) {
     axios
       .get(`/booking/user-id/${data.id}`)
       .then(res => {
-        res.data.data.filter(item => {
-          item.statusTicket === 'Active' &&
+        res.data.data.map(item => {
+          item &&
             Notifications.reminderNotifications(
               'Attention',
               `Hello ${data.firstName}, you have an unused ticket, please use it immediately and enjoy watching`,
             );
-
-          // console.log(
-          //   new Date(item.dateBooking).setHours(
-          //     new Date().getHours() + item.timeBooking,
-          //   ),
-          // );
-          // if (new Date(item.dateBooking) < new Date()) {
-          //   Notifications.scheduleNotifications(
-          //     `Hello ${data.firstName}, you have an unused ticket, please use it immediately and enjoy watching`,
-          //     'day',
-          //     1,
-          //   );
-          // }
-          //  else if (new Date(item.dateBooking) === new Date()) {
-          //             Notifications.scheduleNotifications(
-          //               `Hello ${data.firstName}, you have an expired ticket movie ${item.name}`,
-          //               '',
-          //               '',
-          //             );
-          //           }
         });
 
         setDataBooking(res.data.data);
@@ -78,9 +58,7 @@ export default function OrderHistory({navigation}) {
   };
 
   return (
-    <ScrollView
-      style={[styles.container, dataBooking.length > 3 && styles.morethan_3]}
-      showsVerticalScrollIndicator={false}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {loading ? (
         <ActivityIndicator size="large" color="#5F2EEA" />
       ) : dataBooking.length > 0 ? (
